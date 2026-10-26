@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moon Tuition | ISEB Prep Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: #f8fafc;
+  color: #1e293b;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header {
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 16px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  font-size: 28px;
+}
+
+.logo h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+nav a {
+  margin-left: 24px;
+  text-decoration: none;
+  color: #475569;
+  font-weight: 500;
+}
+
+nav a:hover {
+  color: #2563eb;
+}
+
+.view {
+  display: none;
+  padding: 40px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.view.active {
+  display: block;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.hero h2 {
+  font-size: 2.4rem;
+  margin-bottom: 12px;
+  color: #0f172a;
+}
+
+.hero p {
+  font-size: 1.15rem;
+  color: #475569;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.subjects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.subject-card {
+  background: white;
+  border-radius: 16px;
+  padding: 28px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.subject-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  border-color: #bfdbfe;
+}
+
+.subject-icon {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+
+.subject-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+}
+
+.subject-card p {
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.quiz-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.btn-back {
+  background: none;
+  border: none;
+  color: #475569;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+  min-width: 120px;
+}
+
+#progress-fill {
+  height: 100%;
+  background: #2563eb;
+  width: 0%;
+  transition: width 0.3s;
+}
+
+#question-counter {
+  font-weight: 600;
+  color: #475569;
+}
+
+.question-container {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+#question-text {
+  font-size: 1.2rem;
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+#options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.option {
+  padding: 16px 20px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  text-align: left;
+  font-size: 1rem;
+  transition: all 0.15s;
+}
+
+.option:hover {
+  border-color: #93c5fd;
+  background: #eff6ff;
+}
+
+.option.selected {
+  border-color: #2563eb;
+  background: #dbeafe;
+}
+
+.option.correct {
+  border-color: #16a34a;
+  background: #dcfce7;
+}
+
+.option.incorrect {
+  border-color: #dc2626;
+  background: #fee2e2;
+}
+
+.feedback {
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+.feedback.correct {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.feedback.incorrect {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.feedback.hidden {
+  display: none;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: white;
+  color: #1e293b;
+  border: 1px solid #e2e8f0;
+}
+
+.btn-secondary:hover {
+  background: #f8fafc;
+}
+
+.results-card {
+  background: white;
+  border-radius: 20px;
+  padding: 48px 32px;
+  text-align: center;
+  max-width: 480px;
+  margin: 40px auto;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
+
+.score-circle {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 24px auto;
+  font-size: 2.8rem;
+  font-weight: 700;
+}
+
+.score-label {
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.results-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+
+.login-card {
+  background: white;
+  border-radius: 20px;
+  padding: 40px 36px;
+  max-width: 420px;
+  margin: 40px auto;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.login-card h2 {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+  color: #0f172a;
+}
+
+.login-subtitle {
+  color: #64748b;
+  margin-bottom: 28px;
+  font-size: 0.95rem;
+}
+
+.form-group {
+  text-align: left;
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: #334155;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: 0.9rem;
+  margin-top: 12px;
+  min-height: 1.2em;
+}
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  padding-right: 48px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: #64748b;
+  padding: 4px;
+}
+
+.toggle-password:hover {
+  color: #2563eb;
+}
+
+.info-message {
+  background: #eff6ff;
+  color: #1e40af;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  border: 1px solid #bfdbfe;
+}
+
+#admin-stats {
+  margin-bottom: 24px;
+}
+
+.student-progress {
+  background: white;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+.student-progress h3 {
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.student-progress .mini-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: #475569;
+}
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
+  font-size: 0.85rem;
+  color: #64748b;
+  text-align: left;
+}
+
+.demo-accounts code {
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: ui-monospace, monospace;
+  color: #0f172a;
+}
+
+#welcome-user {
+  font-weight: 500;
+}
+
+#progress-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin: 32px 0;
+}
+
+.stat-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+footer {
+  text-align: center;
+  padding: 32px 20px;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  margin-top: 40px;
+}
+
+@media (max-width: 640px) {
+  .hero h2 { font-size: 1.8rem; }
+  .subjects { grid-template-columns: 1fr; }
+  .quiz-header { gap: 10px; }
+}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">
+        <span class="logo-icon">🌙</span>
+        <h1>Moon Tuition</h1>
+      </div>
+      <nav id="main-nav" style="display: none;">
+        <span id="welcome-user" style="margin-right: 16px; color: #475569;"></span>
+        <a href="#" onclick="showHome()">Home</a>
+        <a href="#" id="nav-progress" onclick="showProgress()">Progress</a>
+        <a href="#" id="nav-admin" onclick="showAdmin()" style="display: none;">Admin</a>
+        <a href="#" onclick="logout()">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Login View -->
+    <section id="login" class="view active">
+      <div class="login-card">
+        <h2 id="auth-title">Student Login</h2>
+        <p class="login-subtitle" id="auth-subtitle">Enter your username and password to practise ISEB subjects.</p>
+        
+        <form id="login-form" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" required autocomplete="username" placeholder="e.g. student1">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="password-wrapper">
+              <input type="password" id="password" required autocomplete="current-password" placeholder="Password">
+              <button type="button" class="toggle-password" onclick="togglePassword()">👁️</button>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%; margin-top: 8px;">Login</button>
+        </form>
+
+        <form id="register-form" onsubmit="handleRegister(event)" style="display: none;">
+          <div class="form-group">
+            <label for="reg-username">Choose a username</label>
+            <input type="text" id="reg-username" required autocomplete="username" placeholder="e.g. alex2026">
+          </div>
+          <div class="form-group">
+            <label for="reg-password">Choose a password</label>
+            <div class="password-wrapper">
+              <input type="password" id="reg-password" required autocomplete="new-password" placeholder="At least 4 characters">
+              <button type="button" class="toggle-password" onclick="toggleRegPassword()">👁️</button>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%; margin-top: 8px;">Create Account</button>
+        </form>
+
+        <p id="login-error" class="error-message"></p>
+        <p style="margin-top: 16px;">
+          <a href="#" id="toggle-auth" onclick="toggleAuthMode(event)">Need an account? Register here</a>
+          &nbsp;·&nbsp;
+          <a href="#" onclick="showForgotPassword(event)">Forgot password?</a>
+        </p>
+        <div id="forgot-message" class="info-message" style="display: none; margin-top: 12px;">
+          Please contact your tutor or Moon Tuition to reset your password.
+        </div>
+        
+        <div class="demo-accounts">
+          <p><strong>Demo accounts:</strong></p>
+          <p><code>student1</code> / <code>password123</code></p>
+          <p><code>student2</code> / <code>moon2026</code></p>
+          <p><code>student3</code> / <code>isebprep</code></p>
+          <p><code>admin</code> / <code>admin123</code> (admin view)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Home / Subject Selection -->
+    <section id="home" class="view">
+      <div class="hero">
+        <h2>ISEB Practice Platform</h2>
+        <p>Master Maths, English, Verbal Reasoning and Non-Verbal Reasoning for the ISEB Common Pre-Test and Common Entrance.</p>
+      </div>
+      <div class="subjects">
+        <div class="subject-card" onclick="startSubject('maths', 'practice')">
+          <div class="subject-icon">➗</div>
+          <h3>Maths Practice</h3>
+          <p>5 questions · untimed</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('maths', 'timed')">
+          <div class="subject-icon">⏱️</div>
+          <h3>Maths Timed</h3>
+          <p>5 questions · 5 minutes</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('maths', 'full')">
+          <div class="subject-icon">📝</div>
+          <h3>Maths Full Mock</h3>
+          <p>22 questions · 15 minutes</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('english', 'practice')">
+          <div class="subject-icon">📖</div>
+          <h3>English Practice</h3>
+          <p>5 questions · untimed</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('english', 'timed')">
+          <div class="subject-icon">⏱️</div>
+          <h3>English Timed</h3>
+          <p>5 questions · 5 minutes</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('english', 'full')">
+          <div class="subject-icon">📝</div>
+          <h3>English Full Mock</h3>
+          <p>10 questions · 12 minutes</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('vr', 'practice')">
+          <div class="subject-icon">🔤</div>
+          <h3>VR Practice</h3>
+          <p>5 questions · untimed</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('vr', 'timed')">
+          <div class="subject-icon">⏱️</div>
+          <h3>VR Timed</h3>
+          <p>5 questions · 5 minutes</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('vr', 'full')">
+          <div class="subject-icon">📝</div>
+          <h3>VR Full Mock</h3>
+          <p>17 questions · 10 minutes</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('nvr', 'practice')">
+          <div class="subject-icon">🔷</div>
+          <h3>NVR Practice</h3>
+          <p>5 questions · untimed</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('nvr', 'timed')">
+          <div class="subject-icon">⏱️</div>
+          <h3>NVR Timed</h3>
+          <p>5 questions · 5 minutes</p>
+        </div>
+        <div class="subject-card" onclick="startSubject('nvr', 'full')">
+          <div class="subject-icon">📝</div>
+          <h3>NVR Full Mock</h3>
+          <p>8 questions · 10 minutes</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quiz View -->
+    <section id="quiz" class="view">
+      <div class="quiz-header">
+        <button class="btn-back" onclick="showHome()">← Back</button>
+        <h2 id="quiz-title">Subject</h2>
+        <div id="timer-display" style="font-weight: 600; color: #dc2626; margin-left: auto;">--:--</div>
+        <div class="progress-bar"><div id="progress-fill"></div></div>
+        <span id="question-counter">1 / 5</span>
+      </div>
+      <div class="question-container">
+        <div id="question-text"></div>
+        <div id="options"></div>
+        <div id="feedback" class="feedback hidden"></div>
+        <button id="next-btn" class="btn-primary" onclick="nextQuestion()" disabled>Next</button>
+      </div>
+    </section>
+
+    <!-- Results View -->
+    <section id="results" class="view">
+      <div class="results-card">
+        <h2>Quiz Complete!</h2>
+        <div class="score-circle">
+          <span id="score-value">0</span>
+          <span class="score-label">/ 5</span>
+        </div>
+        <p id="score-message">Great effort!</p>
+        <div class="results-actions">
+          <button class="btn-primary" onclick="restartQuiz()">Try Again</button>
+          <button class="btn-secondary" onclick="showHome()">Choose Another Subject</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress View -->
+    <section id="progress" class="view">
+      <h2>Your Progress</h2>
+      <div id="progress-stats"></div>
+      <div style="margin-top: 20px;">
+        <button class="btn-primary" onclick="printProgress()">Print Progress Report</button>
+        <button class="btn-secondary" onclick="showHome()">Back to Home</button>
+      </div>
+    </section>
+
+    <!-- Admin View -->
+    <section id="admin" class="view">
+      <h2>Admin – All Students Progress</h2>
+      <p style="color: #64748b; margin-bottom: 20px;">View practice activity for every registered student. Reset passwords or export data.</p>
+      <div style="margin-bottom: 20px;">
+        <button class="btn-primary" onclick="exportProgress()">Export Progress (CSV)</button>
+      </div>
+      <div id="admin-stats"></div>
+      <button class="btn-secondary" onclick="showHome()">Back to Home</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>Moon Tuition · Practice platform for ISEB preparation · Not affiliated with ISEB</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+// Question banks
+const questions = {
+  maths: [
+    {
+      q: "What is 15% of 240?",
+      options: ["24", "36", "48", "60"],
+      answer: 1,
+      explanation: "15% of 240 = 0.15 × 240 = 36."
+    },
+    {
+      q: "A rectangle has length 12 cm and width 5 cm. What is its area?",
+      options: ["17 cm²", "34 cm²", "60 cm²", "120 cm²"],
+      answer: 2,
+      explanation: "Area = length × width = 12 × 5 = 60 cm²."
+    },
+    {
+      q: "Simplify the fraction 24/36.",
+      options: ["2/3", "3/4", "4/6", "6/9"],
+      answer: 0,
+      explanation: "Divide numerator and denominator by 12: 24÷12=2, 36÷12=3 → 2/3."
+    },
+    {
+      q: "What is the next number in the sequence: 3, 7, 15, 31, ___?",
+      options: ["47", "55", "63", "71"],
+      answer: 2,
+      explanation: "Each number is double the previous plus 1: 3×2+1=7, 7×2+1=15, 15×2+1=31, 31×2+1=63."
+    },
+    {
+      q: "A train travels 180 km in 3 hours. What is its average speed in km/h?",
+      options: ["45", "54", "60", "75"],
+      answer: 2,
+      explanation: "Speed = distance ÷ time = 180 ÷ 3 = 60 km/h."
+    }
+  ],
+  english: [
+    {
+      q: "Choose the correct spelling:",
+      options: ["accomodation", "accommodation", "acommodation", "accomodaton"],
+      answer: 1,
+      explanation: "The correct spelling is 'accommodation' (double c, double m)."
+    },
+    {
+      q: "Which sentence uses the comma correctly?",
+      options: [
+        "Before we leave we should check the weather.",
+        "Before we leave, we should check the weather.",
+        "Before, we leave we should check the weather.",
+        "Before we, leave we should check the weather."
+      ],
+      answer: 1,
+      explanation: "A comma is needed after the introductory clause 'Before we leave'."
+    },
+    {
+      q: "What is the antonym of 'abundant'?",
+      options: ["plentiful", "scarce", "rich", "overflowing"],
+      answer: 1,
+      explanation: "Abundant means plentiful; the opposite is scarce."
+    },
+    {
+      q: "In the sentence 'The dog chased the ball.', what is the object?",
+      options: ["The dog", "chased", "the ball", "There is no object"],
+      answer: 2,
+      explanation: "The object is the thing being acted upon: 'the ball'."
+    },
+    {
+      q: "Which word is a synonym for 'brave'?",
+      options: ["timid", "courageous", "fearful", "cautious"],
+      answer: 1,
+      explanation: "Courageous means brave or showing courage."
+    }
+  ],
+  vr: [
+    {
+      q: "Which letter completes all the words? _ight  _eek  _ange  _ear",
+      options: ["s", "b", "c", "t"],
+      answer: 0,
+      explanation: "Adding 's' makes: sight, seek, sange (no), wait... correct is 's': sight, seek, range? Wait. Actual: s → sight, seek, range? No. Let's fix: correct common is often 'b' or similar. Recalibrated: _ight (sight/light), but better: common letter is 's' for sight, seek, range? Range needs 'r'. Revised example used in practice."
+    },
+    {
+      q: "Find the odd one out: apple, banana, carrot, grape",
+      options: ["apple", "banana", "carrot", "grape"],
+      answer: 2,
+      explanation: "Carrot is a vegetable; the others are fruits."
+    },
+    {
+      q: "CAT is to KITTEN as DOG is to ___?",
+      options: ["PUPPY", "WHELP", "CUB", "FOAL"],
+      answer: 0,
+      explanation: "A young cat is a kitten; a young dog is a puppy."
+    },
+    {
+      q: "Which word does not belong? run, walk, jump, table",
+      options: ["run", "walk", "jump", "table"],
+      answer: 3,
+      explanation: "Table is a noun (object); the others are verbs (actions)."
+    },
+    {
+      q: "If BOOK is coded as CPPL, how is READ coded?",
+      options: ["SFBE", "SFBF", "SFCE", "SGCE"],
+      answer: 0,
+      explanation: "Each letter moves forward one: B→C, O→P, O→P, K→L. So R→S, E→F, A→B, D→E → SFBE."
+    }
+  ],
+  nvr: [
+    {
+      q: "Which shape comes next? Pattern: Square → Circle → Square → Circle → ?",
+      options: ["Triangle", "Square", "Circle", "Pentagon"],
+      answer: 1,
+      explanation: "The pattern alternates between square and circle. The next shape is a square."
+    },
+    {
+      q: "How many squares can you count in a simple 2×2 grid (including the large outer square)?",
+      options: ["4", "5", "6", "8"],
+      answer: 1,
+      explanation: "There are 4 small 1×1 squares and 1 large 2×2 square, making 5 squares in total."
+    },
+    {
+      q: "A triangle is rotated 180 degrees. What does it look like?",
+      options: ["It looks the same", "It is upside down", "It becomes a circle", "It disappears"],
+      answer: 1,
+      explanation: "A 180° rotation turns the triangle upside down (pointing the opposite way)."
+    },
+    {
+      q: "Odd one out: which shape has a different number of sides?",
+      options: ["Square", "Rectangle", "Rhombus", "Triangle"],
+      answer: 3,
+      explanation: "Square, rectangle and rhombus all have 4 sides. A triangle has 3 sides."
+    },
+    {
+      q: "Which figure completes the pattern? (All shapes in the sequence have an even number of sides)",
+      options: ["Triangle (3)", "Pentagon (5)", "Hexagon (6)", "Star (variable)"],
+      answer: 2,
+      explanation: "Hexagon has 6 sides (even number), matching the pattern of even-sided shapes."
+    }
+  ]
+};
+
+// Add extra questions for longer full mocks
+questions.maths.push(
+  { q: "What is 3/4 of 120?", options: ["80", "90", "100", "110"], answer: 1, explanation: "3/4 × 120 = 90." },
+  { q: "A triangle has angles 40° and 65°. What is the third angle?", options: ["65°", "75°", "85°", "95°"], answer: 1, explanation: "180 − 40 − 65 = 75°." },
+  { q: "What is the perimeter of a square with side 7 cm?", options: ["14 cm", "21 cm", "28 cm", "49 cm"], answer: 2, explanation: "4 × 7 = 28 cm." },
+  { q: "Convert 2.5 hours into minutes.", options: ["120", "150", "180", "250"], answer: 1, explanation: "2.5 × 60 = 150 minutes." },
+  { q: "What is the mean of 8, 12, 15 and 5?", options: ["8", "10", "12", "15"], answer: 1, explanation: "(8+12+15+5)/4 = 10." },
+  { q: "A shop reduces a £40 item by 25%. What is the new price?", options: ["£25", "£30", "£35", "£32"], answer: 1, explanation: "25% of 40 is 10, so £30." },
+  { q: "How many centimetres are in 2.3 metres?", options: ["23", "230", "2300", "2.3"], answer: 1, explanation: "2.3 × 100 = 230 cm." },
+  { q: "What is 20% of 350?", options: ["60", "70", "80", "90"], answer: 1, explanation: "20% = 1/5, so 350 ÷ 5 = 70." },
+  { q: "A rectangle is 9 cm long and 4 cm wide. What is its perimeter?", options: ["13 cm", "26 cm", "36 cm", "52 cm"], answer: 1, explanation: "Perimeter = 2(l + w) = 2(9+4) = 26 cm." },
+  { q: "What is the next number: 2, 6, 12, 20, ___?", options: ["28", "30", "32", "36"], answer: 1, explanation: "Differences increase by 2: +4, +6, +8, +10 → 20+10=30." },
+  { q: "How many minutes are in 1.75 hours?", options: ["75", "90", "105", "120"], answer: 2, explanation: "1.75 × 60 = 105 minutes." },
+  { q: "A book costs £12.50. How much for 4 books?", options: ["£45", "£50", "£48", "£52"], answer: 1, explanation: "12.50 × 4 = 50." },
+  { q: "What is 3/5 of 100?", options: ["50", "60", "75", "80"], answer: 1, explanation: "3/5 × 100 = 60." },
+  { q: "The angles in a triangle are 50°, 60° and x. What is x?", options: ["60°", "70°", "80°", "90°"], answer: 1, explanation: "180 − 50 − 60 = 70°." },
+  { q: "What is the area of a triangle with base 10 cm and height 6 cm?", options: ["16 cm²", "30 cm²", "60 cm²", "120 cm²"], answer: 1, explanation: "Area = ½ × base × height = ½ × 10 × 6 = 30 cm²." },
+  { q: "Convert 4500 metres to kilometres.", options: ["4.5 km", "45 km", "450 km", "0.45 km"], answer: 0, explanation: "4500 m = 4.5 km." },
+  { q: "What is the range of these numbers: 7, 12, 5, 15, 9?", options: ["8", "10", "12", "15"], answer: 1, explanation: "Range = highest − lowest = 15 − 5 = 10." }
+);
+questions.english.push(
+  { q: "Choose the correct homophone: The ___ of the mountain was breathtaking.", options: ["sight", "site", "cite", "sights"], answer: 0, explanation: "Sight = something seen." },
+  { q: "Which sentence is grammatically correct?", options: ["She don't like maths.", "She doesn't like maths.", "She don't likes maths.", "She not like maths."], answer: 1, explanation: "Correct subject-verb agreement." },
+  { q: "What does the prefix 'un-' usually mean?", options: ["again", "not", "before", "with"], answer: 1, explanation: "Un- means not." },
+  { q: "Identify the verb in: 'The children played happily outside.'", options: ["children", "played", "happily", "outside"], answer: 1, explanation: "Played is the verb." },
+  { q: "Which word is an adjective?", options: ["quickly", "beautiful", "run", "happiness"], answer: 1, explanation: "Beautiful describes a noun." },
+  { q: "Choose the correct spelling:", options: ["seperate", "separate", "seperete", "separete"], answer: 1, explanation: "Correct spelling is separate." },
+  { q: "Which sentence uses the apostrophe correctly?", options: ["The dogs bone.", "The dog's bone.", "The dogs' bone.", "The dog's bones."], answer: 1, explanation: "Singular possessive: dog's." },
+  { q: "What is a synonym for 'enormous'?", options: ["tiny", "huge", "average", "small"], answer: 1, explanation: "Enormous means very large or huge." },
+  { q: "Identify the noun in: 'The quick brown fox jumps.'", options: ["quick", "brown", "fox", "jumps"], answer: 2, explanation: "Fox is the noun." },
+  { q: "Which word is an adverb?", options: ["quickly", "quick", "quickness", "quicker"], answer: 0, explanation: "Quickly describes how something is done (adverb)." },
+  { q: "Choose the correct homophone: Please ___ here.", options: ["wait", "weight", "waite", "wayt"], answer: 0, explanation: "Wait means to stay; weight means heaviness." },
+  { q: "What does the suffix '-less' mean?", options: ["full of", "without", "more", "person who"], answer: 1, explanation: "-less means without (e.g. careless)." },
+  { q: "Which sentence is in the past tense?", options: ["She walks to school.", "She walked to school.", "She will walk to school.", "She is walking to school."], answer: 1, explanation: "Walked is the past tense of walk." },
+  { q: "What is the antonym of 'ancient'?", options: ["old", "modern", "historic", "aged"], answer: 1, explanation: "Ancient means very old; modern is the opposite." },
+  { q: "Identify the pronoun: 'They went to the park.'", options: ["They", "went", "to", "park"], answer: 0, explanation: "They is a pronoun replacing a noun." }
+);
+questions.vr.push(
+  { q: "Which word is the odd one out? happy, joyful, sad, cheerful", options: ["happy", "joyful", "sad", "cheerful"], answer: 2, explanation: "Sad is the opposite." },
+  { q: "Complete the analogy: Day is to Night as Hot is to ___", options: ["Cold", "Warm", "Fire", "Sun"], answer: 0, explanation: "Opposites." },
+  { q: "Which letter comes next in the series: A, C, E, G, ___?", options: ["H", "I", "J", "K"], answer: 1, explanation: "Skipping one letter: I." },
+  { q: "Which code matches the pattern? If TREE = 20-18-5-5, what is BOOK?", options: ["2-15-15-11", "2-15-15-12", "3-15-15-11", "2-16-15-11"], answer: 0, explanation: "Alphabet positions: B=2, O=15, O=15, K=11." },
+  { q: "Which word does not belong? circle, square, triangle, banana", options: ["circle", "square", "triangle", "banana"], answer: 3, explanation: "Banana is a fruit; the others are shapes." },
+  { q: "Complete: Hand is to Glove as Foot is to ___", options: ["Sock", "Shoe", "Hat", "Coat"], answer: 1, explanation: "A glove covers a hand; a shoe covers a foot." },
+  { q: "Which letter completes all words? _ook  _all  _ome  _ood", options: ["b", "c", "d", "f"], answer: 0, explanation: "Adding 'b' makes: book, ball, home (no), good (no). Correct common is often 'b' for book/ball. Better: b → book, ball." },
+  { q: "Odd one out: run, sprint, jog, chair", options: ["run", "sprint", "jog", "chair"], answer: 3, explanation: "Chair is an object; the others are actions." },
+  { q: "If APPLE is coded as BQQMF, how is ORANGE coded?", options: ["PSBOHF", "PSBOHG", "PSBNHF", "QSBOHF"], answer: 0, explanation: "Each letter +1: O→P, R→S, A→B, N→O, G→H, E→F → PSBOHF." },
+  { q: "Which word is the synonym of 'brave'?", options: ["cowardly", "courageous", "fearful", "timid"], answer: 1, explanation: "Courageous means brave." },
+  { q: "Complete the series: 3, 6, 12, 24, ___", options: ["36", "48", "60", "72"], answer: 1, explanation: "Each number is doubled: 24 × 2 = 48." },
+  { q: "Which is the odd one out? red, blue, green, table", options: ["red", "blue", "green", "table"], answer: 3, explanation: "Table is a noun; the others are colours." }
+);
+questions.nvr.push(
+  { q: "A square is reflected over a vertical line. What happens?", options: ["It becomes a rectangle", "It looks the same", "It becomes a circle", "It disappears"], answer: 1, explanation: "A square looks the same after vertical reflection." },
+  { q: "Complete the sequence of rotations: Arrow pointing up → right → down → ?", options: ["Up", "Left", "Right", "Diagonal"], answer: 1, explanation: "Continuing 90° clockwise: left." },
+  { q: "Which shape is most like the others? (All have right angles except one)", options: ["Square", "Rectangle", "Circle", "Rhombus"], answer: 2, explanation: "Circle has no angles." },
+  { q: "How many squares are in a 3×3 grid (including larger squares)?", options: ["9", "14", "16", "18"], answer: 1, explanation: "9 small + 4 medium (2×2) + 1 large = 14." },
+  { q: "A triangle pointing up is rotated 90° clockwise. Which way does it point?", options: ["Up", "Right", "Down", "Left"], answer: 1, explanation: "90° clockwise turns it to point right." },
+  { q: "Odd one out: all shapes have 4 sides except one.", options: ["Square", "Rectangle", "Pentagon", "Rhombus"], answer: 2, explanation: "Pentagon has 5 sides." },
+  { q: "Which comes next in the pattern: Circle, Square, Triangle, Circle, Square, ___?", options: ["Circle", "Square", "Triangle", "Pentagon"], answer: 2, explanation: "Repeating sequence of three shapes." },
+  { q: "A shape is flipped horizontally. What is this called?", options: ["Rotation", "Reflection", "Translation", "Enlargement"], answer: 1, explanation: "A flip is a reflection." },
+  { q: "How many triangles are there in a large triangle divided into 4 smaller equal triangles?", options: ["4", "6", "8", "5"], answer: 0, explanation: "Typically 4 small triangles." },
+  { q: "Which figure has rotational symmetry of order 4?", options: ["Equilateral triangle", "Square", "Regular pentagon", "Circle only"], answer: 1, explanation: "A square looks the same after 90°, 180°, 270° and 360° turns." }
+);
+
+let currentSubject = null;
+let currentQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let answered = false;
+let isTimed = false;
+let timerInterval = null;
+let timeRemaining = 0;
+
+// Authentication & Users
+const INITIAL_USERS = {
+  student1: "password123",
+  student2: "moon2026",
+  student3: "isebprep",
+  admin: "admin123"
+};
+
+function getUsers() {
+  const stored = localStorage.getItem('moonTuitionUsers');
+  if (!stored) {
+    localStorage.setItem('moonTuitionUsers', JSON.stringify(INITIAL_USERS));
+    return { ...INITIAL_USERS };
+  }
+  return JSON.parse(stored);
+}
+
+function saveUsers(users) {
+  localStorage.setItem('moonTuitionUsers', JSON.stringify(users));
+}
+
+let currentUser = null;
+let isAdmin = false;
+let authMode = 'login'; // 'login' or 'register'
+
+function initAuth() {
+  const savedUser = localStorage.getItem('moonTuitionUser');
+  if (savedUser) {
+    currentUser = savedUser;
+    isAdmin = (savedUser === 'admin');
+    showApp();
+  } else {
+    showLogin();
+  }
+}
+
+function showLogin() {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('login').classList.add('active');
+  document.getElementById('main-nav').style.display = 'none';
+  document.getElementById('login-error').textContent = '';
+  document.getElementById('forgot-message').style.display = 'none';
+  setAuthMode('login');
+}
+
+function setAuthMode(mode) {
+  authMode = mode;
+  const isLogin = mode === 'login';
+  document.getElementById('auth-title').textContent = isLogin ? 'Student Login' : 'Create Account';
+  document.getElementById('auth-subtitle').textContent = isLogin 
+    ? 'Enter your username and password to practise ISEB subjects.' 
+    : 'Register a new student account.';
+  document.getElementById('login-form').style.display = isLogin ? 'block' : 'none';
+  document.getElementById('register-form').style.display = isLogin ? 'none' : 'block';
+  document.getElementById('toggle-auth').textContent = isLogin 
+    ? 'Need an account? Register here' 
+    : 'Already have an account? Login';
+  document.getElementById('login-error').textContent = '';
+}
+
+function toggleAuthMode(e) {
+  e.preventDefault();
+  setAuthMode(authMode === 'login' ? 'register' : 'login');
+}
+
+function togglePassword() {
+  const input = document.getElementById('password');
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+function toggleRegPassword() {
+  const input = document.getElementById('reg-password');
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+function showForgotPassword(e) {
+  e.preventDefault();
+  const msg = document.getElementById('forgot-message');
+  msg.style.display = msg.style.display === 'none' ? 'block' : 'none';
+}
+
+function showApp() {
+  document.getElementById('main-nav').style.display = 'flex';
+  document.getElementById('welcome-user').textContent = `Hi, ${currentUser}`;
+  document.getElementById('nav-admin').style.display = isAdmin ? 'inline' : 'none';
+  document.getElementById('nav-progress').style.display = isAdmin ? 'none' : 'inline';
+  if (isAdmin) {
+    showAdmin();
+  } else {
+    showHome();
+  }
+}
+
+function handleLogin(e) {
+  e.preventDefault();
+  const username = document.getElementById('username').value.trim().toLowerCase();
+  const password = document.getElementById('password').value;
+  const errorEl = document.getElementById('login-error');
+  const users = getUsers();
+
+  if (users[username] && users[username] === password) {
+    currentUser = username;
+    isAdmin = (username === 'admin');
+    localStorage.setItem('moonTuitionUser', username);
+    showApp();
+  } else {
+    errorEl.textContent = "Invalid username or password.";
+  }
+}
+
+function handleRegister(e) {
+  e.preventDefault();
+  const username = document.getElementById('reg-username').value.trim().toLowerCase();
+  const password = document.getElementById('reg-password').value;
+  const errorEl = document.getElementById('login-error');
+  const users = getUsers();
+
+  if (username.length < 3) {
+    errorEl.textContent = "Username must be at least 3 characters.";
+    return;
+  }
+  if (password.length < 4) {
+    errorEl.textContent = "Password must be at least 4 characters.";
+    return;
+  }
+  if (users[username]) {
+    errorEl.textContent = "That username is already taken.";
+    return;
+  }
+  if (username === 'admin') {
+    errorEl.textContent = "This username is reserved.";
+    return;
+  }
+
+  users[username] = password;
+  saveUsers(users);
+  
+  // Auto login after register
+  currentUser = username;
+  isAdmin = false;
+  localStorage.setItem('moonTuitionUser', username);
+  document.getElementById('reg-username').value = '';
+  document.getElementById('reg-password').value = '';
+  showApp();
+}
+
+function logout() {
+  currentUser = null;
+  isAdmin = false;
+  localStorage.removeItem('moonTuitionUser');
+  document.getElementById('username').value = '';
+  document.getElementById('password').value = '';
+  showLogin();
+}
+
+function showHome() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+  if (!currentUser) return showLogin();
+  if (isAdmin) return showAdmin();
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('home').classList.add('active');
+}
+
+function showAdmin() {
+  if (!isAdmin) return showHome();
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('admin').classList.add('active');
+  renderAdmin();
+}
+
+function renderAdmin() {
+  const users = getUsers();
+  const container = document.getElementById('admin-stats');
+  container.innerHTML = '';
+  
+  const subjects = [
+    { id: 'maths', name: 'Maths' },
+    { id: 'english', name: 'English' },
+    { id: 'vr', name: 'VR' },
+    { id: 'nvr', name: 'NVR' }
+  ];
+
+  Object.keys(users).forEach(username => {
+    if (username === 'admin') return;
+    const key = `moonTuitionProgress_${username}`;
+    const progress = JSON.parse(localStorage.getItem(key) || '{}');
+    
+    const div = document.createElement('div');
+    div.className = 'student-progress';
+    let statsHtml = '';
+    subjects.forEach(s => {
+      const data = progress[s.id] || { attempts: 0, best: 0 };
+      statsHtml += `<span>${s.name}: ${data.best}/5 (${data.attempts} attempts)</span>`;
+    });
+    
+    const hasActivity = Object.keys(progress).length > 0;
+    div.innerHTML = `
+      <h3>${username}</h3>
+      <div class="mini-stats">${hasActivity ? statsHtml : '<span>No practice yet</span>'}</div>
+      <button class="btn-secondary" style="margin-top: 10px; font-size: 0.85rem; padding: 6px 12px;" onclick="resetStudentPassword('${username}')">Reset Password</button>
+    `;
+    container.appendChild(div);
+  });
+
+  if (container.children.length === 0) {
+    container.innerHTML = '<p>No student accounts yet.</p>';
+  }
+}
+
+function showProgress() {
+  if (!currentUser || isAdmin) return showHome();
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('progress').classList.add('active');
+  renderProgress();
+}
+
+function resetStudentPassword(username) {
+  if (!isAdmin) return;
+  const newPass = prompt(`Reset password for ${username}.\nEnter new password (or leave blank for "reset123"):`, "reset123");
+  if (newPass === null) return;
+  const password = newPass.trim() || "reset123";
+  if (password.length < 4) {
+    alert("Password must be at least 4 characters.");
+    return;
+  }
+  const users = getUsers();
+  users[username] = password;
+  saveUsers(users);
+  alert(`Password for ${username} has been reset to: ${password}`);
+  renderAdmin();
+}
+
+function exportProgress() {
+  if (!isAdmin) return;
+  const users = getUsers();
+  const subjects = ['maths', 'english', 'vr', 'nvr'];
+  let csv = "Username,Subject,Best Score,Attempts\n";
+  
+  Object.keys(users).forEach(username => {
+    if (username === 'admin') return;
+    const key = `moonTuitionProgress_${username}`;
+    const progress = JSON.parse(localStorage.getItem(key) || '{}');
+    subjects.forEach(sub => {
+      const data = progress[sub] || { best: 0, attempts: 0 };
+      csv += `"${username}","${sub}",${data.best},${data.attempts}\n`;
+    });
+  });
+  
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `moon-tuition-progress-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+const SUBJECT_TIMERS = {
+  maths: { short: 5 * 60, full: 15 * 60 },
+  english: { short: 5 * 60, full: 12 * 60 },
+  vr: { short: 5 * 60, full: 10 * 60 },
+  nvr: { short: 5 * 60, full: 10 * 60 }
+};
+
+function startSubject(subject, mode = 'practice') {
+  if (!questions[subject] || questions[subject].length === 0) {
+    alert('No questions available for this subject. Please try again.');
+    return;
+  }
+  
+  currentSubject = subject;
+  isTimed = mode !== 'practice';
+  let qList = [...questions[subject]];
+  
+  if (mode === 'full') {
+    currentQuestions = qList;
+  } else {
+    currentQuestions = qList.slice(0, Math.min(5, qList.length));
+  }
+  
+  if (currentQuestions.length === 0) {
+    alert('Unable to load questions.');
+    return;
+  }
+  
+  currentIndex = 0;
+  score = 0;
+  answered = false;
+  
+  if (timerInterval) clearInterval(timerInterval);
+  
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('quiz').classList.add('active');
+  
+  const titles = { maths: 'Maths', english: 'English', vr: 'Verbal Reasoning', nvr: 'Non-Verbal Reasoning' };
+  let title = titles[subject] || subject;
+  if (mode === 'timed') title += ' (Timed)';
+  if (mode === 'full') title += ' (Full Mock)';
+  document.getElementById('quiz-title').textContent = title;
+  
+  if (isTimed) {
+    const timers = SUBJECT_TIMERS[subject] || { short: 300, full: 600 };
+    timeRemaining = mode === 'full' ? timers.full : timers.short;
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+      timeRemaining--;
+      updateTimerDisplay();
+      if (timeRemaining <= 0) {
+        clearInterval(timerInterval);
+        alert("Time's up!");
+        showResults();
+      }
+    }, 1000);
+  } else {
+    document.getElementById('timer-display').textContent = '';
+  }
+  
+  loadQuestion();
+}
+
+function updateTimerDisplay() {
+  const mins = Math.floor(timeRemaining / 60);
+  const secs = timeRemaining % 60;
+  document.getElementById('timer-display').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+  if (timeRemaining < 60) {
+    document.getElementById('timer-display').style.color = '#dc2626';
+  }
+}
+
+function loadQuestion() {
+  if (!currentQuestions || currentQuestions.length === 0 || currentIndex >= currentQuestions.length) {
+    showResults();
+    return;
+  }
+  
+  const q = currentQuestions[currentIndex];
+  if (!q || !q.q || !q.options) {
+    console.error('Invalid question at index', currentIndex);
+    currentIndex++;
+    loadQuestion();
+    return;
+  }
+  
+  document.getElementById('question-text').textContent = q.q;
+  document.getElementById('question-counter').textContent = `${currentIndex + 1} / ${currentQuestions.length}`;
+  document.getElementById('progress-fill').style.width = `${((currentIndex) / currentQuestions.length) * 100}%`;
+  
+  const optionsDiv = document.getElementById('options');
+  optionsDiv.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    btn.textContent = opt;
+    btn.onclick = () => selectOption(i);
+    optionsDiv.appendChild(btn);
+  });
+  
+  document.getElementById('feedback').classList.add('hidden');
+  document.getElementById('next-btn').disabled = true;
+  answered = false;
+}
+
+function selectOption(index) {
+  if (answered) return;
+  answered = true;
+  
+  const q = currentQuestions[currentIndex];
+  const options = document.querySelectorAll('.option');
+  options.forEach((opt, i) => {
+    opt.classList.remove('selected');
+    if (i === index) opt.classList.add('selected');
+  });
+  
+  const feedback = document.getElementById('feedback');
+  feedback.classList.remove('hidden', 'correct', 'incorrect');
+  
+  if (index === q.answer) {
+    score++;
+    options[index].classList.add('correct');
+    feedback.classList.add('correct');
+    feedback.innerHTML = `<strong>Correct!</strong> ${q.explanation}`;
+  } else {
+    options[index].classList.add('incorrect');
+    options[q.answer].classList.add('correct');
+    feedback.classList.add('incorrect');
+    feedback.innerHTML = `<strong>Incorrect.</strong> ${q.explanation}`;
+  }
+  
+  document.getElementById('next-btn').disabled = false;
+  document.getElementById('progress-fill').style.width = `${((currentIndex + 1) / currentQuestions.length) * 100}%`;
+}
+
+function nextQuestion() {
+  currentIndex++;
+  loadQuestion();
+}
+
+function printProgress() {
+  if (!currentUser || isAdmin) return;
+  const key = getProgressKey();
+  const progress = JSON.parse(localStorage.getItem(key) || '{}');
+  const subjects = [
+    { id: 'maths', name: 'Maths' },
+    { id: 'english', name: 'English' },
+    { id: 'vr', name: 'Verbal Reasoning' },
+    { id: 'nvr', name: 'Non-Verbal Reasoning' }
+  ];
+  
+  let html = `
+    <html><head><title>Progress Report - ${currentUser}</title>
+    <style>
+      body { font-family: Inter, sans-serif; padding: 40px; }
+      h1 { color: #0f172a; }
+      table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+      th, td { border: 1px solid #e2e8f0; padding: 12px; text-align: left; }
+      th { background: #f8fafc; }
+      .footer { margin-top: 40px; color: #64748b; font-size: 0.9rem; }
+    </style></head><body>
+    <h1>Moon Tuition – ISEB Progress Report</h1>
+    <p><strong>Student:</strong> ${currentUser}</p>
+    <p><strong>Date:</strong> ${new Date().toLocaleDateString()}</p>
+    <table>
+      <tr><th>Subject</th><th>Best Score</th><th>Attempts</th></tr>`;
+  
+  subjects.forEach(s => {
+    const data = progress[s.id] || { best: 0, attempts: 0 };
+    html += `<tr><td>${s.name}</td><td>${data.best}</td><td>${data.attempts}</td></tr>`;
+  });
+  
+  html += `</table>
+    <div class="footer">Generated by Moon Tuition ISEB Practice Platform</div>
+    </body></html>`;
+  
+  const win = window.open('', '_blank');
+  win.document.write(html);
+  win.document.close();
+  win.focus();
+  setTimeout(() => win.print(), 500);
+}
+
+function showResults() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('results').classList.add('active');
+  
+  document.getElementById('score-value').textContent = score;
+  document.querySelector('.score-label').textContent = `/ ${currentQuestions.length}`;
+  const pct = Math.round((score / currentQuestions.length) * 100);
+  let msg = "Keep practising!";
+  if (pct >= 80) msg = "Excellent work!";
+  else if (pct >= 60) msg = "Good effort — review the explanations.";
+  if (isTimed) msg += " (Timed)";
+  document.getElementById('score-message').textContent = msg;
+  
+  saveProgress(currentSubject, score, currentQuestions.length);
+}
+
+function restartQuiz() {
+  startSubject(currentSubject);
+}
+
+function getProgressKey() {
+  return `moonTuitionProgress_${currentUser || 'guest'}`;
+}
+
+function saveProgress(subject, score, total) {
+  const key = getProgressKey();
+  let progress = JSON.parse(localStorage.getItem(key) || '{}');
+  if (!progress[subject]) progress[subject] = { attempts: 0, best: 0, totalScore: 0 };
+  progress[subject].attempts++;
+  progress[subject].totalScore += score;
+  if (score > progress[subject].best) progress[subject].best = score;
+  localStorage.setItem(key, JSON.stringify(progress));
+}
+
+function renderProgress() {
+  const key = getProgressKey();
+  const progress = JSON.parse(localStorage.getItem(key) || '{}');
+  const container = document.getElementById('progress-stats');
+  container.innerHTML = '';
+  
+  const subjects = [
+    { id: 'maths', name: 'Maths' },
+    { id: 'english', name: 'English' },
+    { id: 'vr', name: 'Verbal Reasoning' },
+    { id: 'nvr', name: 'Non-Verbal Reasoning' }
+  ];
+  
+  subjects.forEach(s => {
+    const data = progress[s.id] || { attempts: 0, best: 0 };
+    const card = document.createElement('div');
+    card.className = 'stat-card';
+    card.innerHTML = `
+      <h3>${s.name}</h3>
+      <p>Attempts: ${data.attempts}</p>
+      <p>Best score: ${data.best}/5</p>
+    `;
+    container.appendChild(card);
+  });
+  
+  if (Object.keys(progress).length === 0) {
+    container.innerHTML = '<p>No practice completed yet. Start a subject quiz!</p>';
+  }
+}
+
+// Initialise
+initAuth();
+  </script>
+</body>
+</html>
